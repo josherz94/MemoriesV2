@@ -67,7 +67,6 @@
             android:layout_margin="5dp"
             android:hint="Memory description"
             android:maxLines="6"
-            android:src="@drawable/add_image_icon"
             android:scaleType="centerCrop"/>
 
     </LinearLayout>
