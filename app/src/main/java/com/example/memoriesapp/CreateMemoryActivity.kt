@@ -36,11 +36,13 @@ class CreateMemoryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_memory)
 
         val addMemory: ImageView = findViewById<ImageView>(R.id.add_memory_view)
+        val quitBtn: ImageView = findViewById<ImageView>(R.id.cancel_memory_view)
 
         storagePostPicRef = FirebaseStorage.getInstance().reference.child("Memory Images")
 
 
         addMemory.setOnClickListener { uploadImage() }
+        quitBtn.setOnClickListener {finish()}
 
         CropImage.activity().setAspectRatio(2,1).start(this@CreateMemoryActivity)
     }
@@ -92,7 +94,7 @@ class CreateMemoryActivity : AppCompatActivity() {
 
                         val memoryMap = HashMap<String, Any>()
                         memoryMap["memoryid"] = memoryId!!
-                        memoryMap["description"] = findViewById<EditText>(R.id.memory_description).text.toString().toLowerCase()
+                        memoryMap["description"] = findViewById<EditText>(R.id.memory_description).text.toString()
                         memoryMap["publisher"] = FirebaseAuth.getInstance().currentUser!!.uid
                         memoryMap["memoryimage"] = myUrl
 

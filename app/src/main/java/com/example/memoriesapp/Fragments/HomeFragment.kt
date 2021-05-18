@@ -1,10 +1,13 @@
 package com.example.memoriesapp.Fragments
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.PopupMenu
+
+import android.widget.Toast
 import androidx.core.app.ActivityCompat.recreate
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +33,7 @@ class HomeFragment : Fragment() {
     private var storyList: MutableList<Story>? = null
 
     private val LOG = Logger.getLogger(HomeFragment::class.java.name)
-
+    val currentUser = FirebaseAuth.getInstance().currentUser
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,6 +69,7 @@ class HomeFragment : Fragment() {
         LOG.warning("!!!!!!!!!!!!!!!!!on create called!!!!!!!!!!!!!!!!!")
         return view
     }
+
 
     private fun checkFollowing() {
         followingList = ArrayList()

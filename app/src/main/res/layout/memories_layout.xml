@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -40,6 +41,16 @@
                 android:layout_marginTop="14dp"
                 android:textColor="@color/white"/>
 
+            <ImageView
+                android:id="@+id/dropdown_menu"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="220dp"
+                android:layout_marginTop="12dp"
+                android:visibility="invisible"
+                android:src="@drawable/settings_icon">
+            </ImageView>
+
         </LinearLayout>
 
         <ImageView
@@ -55,6 +66,16 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:background="@color/colorPrimary">
+
+          <!--  <ImageView
+                android:id="@+id/memory_edit_btn"
+                android:layout_width="40dp"
+                android:layout_height="34dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="7dp"
+                android:layout_toStartOf="@+id/memory_save_comment_btn"
+                android:src="@drawable/edit_button"
+                tools:visibility="invisible" /> -->
 
             <ImageView
                 android:id="@+id/memory_like_btn"

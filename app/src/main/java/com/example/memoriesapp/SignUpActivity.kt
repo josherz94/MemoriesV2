@@ -70,8 +70,9 @@ class SignUpActivity : AppCompatActivity() {
         val usersRef: DatabaseReference = FirebaseDatabase.getInstance().reference.child("Users")
         val userMap = HashMap<String, Any>()
         userMap["uid"] = currentUserID
-        userMap["fullname"] = fullName.toLowerCase()
-        userMap["username"] = userName.toLowerCase()
+        userMap["searchname"] = userName.toLowerCase()
+        userMap["fullname"] = fullName
+        userMap["username"] = userName
         userMap["email"] = email
         userMap["bio"] = "Welcome to my Memories!"
         userMap["image"] = "https://firebasestorage.googleapis.com/v0/b/memories-app-a9a0c.appspot.com/o/Default%20Images%2Fprofile.png?alt=media&token=3d16598a-31ef-4475-b8f1-5ea4e28b53b9"

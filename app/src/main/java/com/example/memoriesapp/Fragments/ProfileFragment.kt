@@ -30,8 +30,8 @@ import kotlin.collections.ArrayList
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var profileId: String
-    private lateinit var firebaseUser: FirebaseUser
+    private  var profileId: String = ""
+    private  var firebaseUser: FirebaseUser? = null
 
     var memoryList: List<Memories>? = null
     var userImageAdapter: UserImageAdapter? = null
@@ -54,11 +54,11 @@ class ProfileFragment : Fragment() {
         }
 
         // User on own profile
-        if(profileId == firebaseUser.uid) {
+        if(profileId == firebaseUser!!.uid) {
             view.findViewById<Button>(R.id.edit_account_settings_btn).text = "Edit Profile"
         }
         // User going on other user's page
-        else if(profileId != firebaseUser.uid) {
+        else if(profileId != firebaseUser!!.uid) {
             checkFollowAndFollowingButtonStatus()
         }
 
@@ -119,14 +119,14 @@ class ProfileFragment : Fragment() {
                     startActivity(Intent(context, AccountSettingsActivity::class.java))
 
                 getButtonTxt == "Follow" -> {
-                    firebaseUser.uid.let { it1 ->
+                    firebaseUser!!.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                                 .child("Follow").child(it1.toString())
                                 .child("Following").child(profileId)
                                 .setValue(true)
                     }
 
-                    firebaseUser.uid.let { it1 ->
+                    firebaseUser!!.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                                 .child("Follow").child(profileId)
                                 .child("Followers").child(it1.toString())
@@ -136,14 +136,14 @@ class ProfileFragment : Fragment() {
                 }
 
                 getButtonTxt == "Following" -> {
-                    firebaseUser.uid.let { it1 ->
+                    firebaseUser!!.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                                 .child("Follow").child(it1.toString())
                                 .child("Following").child(profileId)
                                 .removeValue()
                     }
 
-                    firebaseUser.uid.let { it1 ->
+                    firebaseUser!!.uid.let { it1 ->
                         FirebaseDatabase.getInstance().reference
                                 .child("Follow").child(profileId)
                                 .child("Followers").child(it1.toString())
@@ -166,7 +166,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun checkFollowAndFollowingButtonStatus() {
-        val followingRef = firebaseUser.uid.let { it1 ->
+        val followingRef = firebaseUser!!.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
                     .child("Follow").child(it1)
                     .child("Following")
@@ -264,9 +264,9 @@ class ProfileFragment : Fragment() {
                             .load(user!!.getImage())
                             .placeholder(R.drawable.profile)
                             .into(view?.findViewById<CircleImageView>(R.id.image_page_frag))
-                    view?.findViewById<TextView>(R.id.username_page_frag)?.text = user.getUsername()
-                    view?.findViewById<TextView>(R.id.full_name_page_frag)?.text = user.getFullName()
-                    view?.findViewById<TextView>(R.id.bio_page_frag)?.text = user.getBio()
+                    view?.findViewById<TextView>(R.id.username_page_frag)?.text = user.getUsername()//.capitalize()
+                    view?.findViewById<TextView>(R.id.full_name_page_frag)?.text = user.getFullName()//.capitalize()
+                    view?.findViewById<TextView>(R.id.bio_page_frag)?.text = user.getBio()//.capitalize()
                 }
             }
 
@@ -281,7 +281,7 @@ class ProfileFragment : Fragment() {
 
         val saveRef = FirebaseDatabase.getInstance().reference
             .child("Saves")
-            .child(firebaseUser.uid)
+            .child(firebaseUser!!.uid)
 
         saveRef.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -355,7 +355,7 @@ class ProfileFragment : Fragment() {
         super.onStop()
 
         val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
-        pref?.putString("profileId", firebaseUser.uid)
+        pref?.putString("profileId", firebaseUser!!.uid)
         pref?.apply()
     }
 
@@ -363,7 +363,7 @@ class ProfileFragment : Fragment() {
         super.onPause()
 
         val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
-        pref?.putString("profileId", firebaseUser.uid)
+        pref?.putString("profileId", firebaseUser!!.uid)
         pref?.apply()
     }
 
@@ -371,7 +371,7 @@ class ProfileFragment : Fragment() {
         super.onDestroy()
 
         val pref = context?.getSharedPreferences("PREFS", Context.MODE_PRIVATE)?.edit()
-        pref?.putString("profileId", firebaseUser.uid)
+        pref?.putString("profileId", firebaseUser!!.uid)
         pref?.apply()
     }
 

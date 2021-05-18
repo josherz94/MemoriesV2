@@ -19,7 +19,9 @@
         android:layout_height="wrap_content"
         android:background="@color/backgroundLight"
         app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="unlabeled"
+        app:labelVisibilityMode="labeled"
+        app:itemIconTint="@drawable/tab_color"
+        app:itemTextColor="@drawable/tab_color"
         android:layout_alignParentBottom="true"
         />
 

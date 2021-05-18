@@ -52,7 +52,7 @@ class SearchFragment : Fragment() {
                     recyclerView?.visibility = View.VISIBLE
 
                     retrieveUsers()
-                    searchUser(s.toString().toLowerCase())
+                    searchUser(s.toString().toLowerCase())//HERE SEARChING VIA LOWER CASE
                 }
             }
 
@@ -66,7 +66,7 @@ class SearchFragment : Fragment() {
     private fun searchUser(input: String) {
         val query = FirebaseDatabase.getInstance().reference
             .child("Users")
-            .orderByChild("fullname")
+            .orderByChild("searchname")
             .startAt(input)
             .endAt(input + "\uf8ff") // must add unicode to the end of query
 

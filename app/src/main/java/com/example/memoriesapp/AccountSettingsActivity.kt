@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import com.example.memoriesapp.Fragments.ProfileFragment
 import com.example.memoriesapp.Model_Classes.User
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.OnCompleteListener
@@ -44,12 +45,13 @@ class AccountSettingsActivity : AppCompatActivity() {
         val LogoutBtn: Button = findViewById<Button>(R.id.logout_btn_profile_frag)
         val changeImgView: TextView = findViewById<TextView>(R.id.change_image_text_btn)
         val saveInfoBtn: ImageView = findViewById<ImageView>(R.id.save_info_profile_btn)
+        val quitBtn: ImageView = findViewById<ImageView>(R.id.close_profile_btn)
         LogoutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
-
             val intent = Intent(this@AccountSettingsActivity, SignInActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
+
             finish()
         }
 
@@ -67,6 +69,10 @@ class AccountSettingsActivity : AppCompatActivity() {
             } else {
                 updateUserInfoOnly()
             }
+        }
+
+        quitBtn.setOnClickListener{
+            finish()
         }
 
         userInfo()
@@ -122,9 +128,9 @@ class AccountSettingsActivity : AppCompatActivity() {
 
                         val ref = FirebaseDatabase.getInstance().reference.child("Users")
                         val userMap = HashMap<String, Any>()
-                        userMap["fullname"] = findViewById<EditText>(R.id.full_name_profile_frag).text.toString().toLowerCase()
-                        userMap["username"] = findViewById<EditText>(R.id.username_profile_frag).text.toString().toLowerCase()
-                        userMap["bio"] = findViewById<EditText>(R.id.bio_profile_frag).text.toString().toLowerCase()
+                        userMap["fullname"] = findViewById<EditText>(R.id.full_name_profile_frag).text.toString()
+                        userMap["username"] = findViewById<EditText>(R.id.username_profile_frag).text.toString()
+                        userMap["bio"] = findViewById<EditText>(R.id.bio_profile_frag).text.toString()
                         userMap["image"] = myUrl
 
                         ref.child(firebaseUser.uid).updateChildren(userMap)
@@ -155,9 +161,10 @@ class AccountSettingsActivity : AppCompatActivity() {
             else -> {
                 val usersRef = FirebaseDatabase.getInstance().reference.child("Users")
                 val userMap = HashMap<String, Any>()
-                userMap["fullname"] = findViewById<EditText>(R.id.full_name_profile_frag).text.toString().toLowerCase()
-                userMap["username"] = findViewById<EditText>(R.id.username_profile_frag).text.toString().toLowerCase()
-                userMap["bio"] = findViewById<EditText>(R.id.bio_profile_frag).text.toString().toLowerCase()
+                userMap["searchname"] = findViewById<EditText>(R.id.username_profile_frag).text.toString().toLowerCase()
+                userMap["fullname"] = findViewById<EditText>(R.id.full_name_profile_frag).text.toString()
+                userMap["username"] = findViewById<EditText>(R.id.username_profile_frag).text.toString()
+                userMap["bio"] = findViewById<EditText>(R.id.bio_profile_frag).text.toString()
                 usersRef.child(firebaseUser.uid).updateChildren(userMap)
                 Toast.makeText(this, "Account Information has been successfully updated", Toast.LENGTH_LONG).show()
 
