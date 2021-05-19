@@ -24,37 +24,45 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
+// Story Adapter to set RecyclerView data for Notifications
 class StoryAdapter (private val mContext: Context,
                     private val mStory: List<Story>)
                     : RecyclerView.Adapter<StoryAdapter.ViewHolder>() {
 
+    // Inflates the layout on creation
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        // viewType: 0 means its the current user's story. on click will inflate add story item layout
         if(viewType == 0) {
             val view = LayoutInflater.from(mContext).inflate(R.layout.add_story_item_layout, parent, false)
             return ViewHolder(view)
         } else {
+            // viewType >0 will inflate story item layout so the user can view the story
             val view = LayoutInflater.from(mContext).inflate(R.layout.story_item_layout, parent, false)
             return ViewHolder(view)
         }
     }
 
+    // return the story list item count
     override fun getItemCount(): Int {
         return mStory.size
     }
 
+    // Reflects Stories held by the viewholder to our recyclerview
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val story = mStory[position]
 
         userInfo(holder, story.getUserId(), position)
 
+        // if adapter position is >0, another user's story
         if(holder.adapterPosition !== 0) {
             viewedStory(holder, story.getUserId())
         }
-
+        // if adapter is 0, User's own story
         if(holder.adapterPosition === 0) {
             userStories(holder.addStoryText!!, holder.storyPlusBtn!!, false)
         }
 
+        // on click listener for itemView. if 0, add story, if >0 view that specific story
         holder.itemView.setOnClickListener {
             if(holder.adapterPosition === 0) {
                 userStories(holder.addStoryText!!, holder.storyPlusBtn!!, true)
@@ -66,6 +74,7 @@ class StoryAdapter (private val mContext: Context,
         }
     }
 
+    // initialize our views for the viewholder
     inner class ViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         // viewHolder for story items
@@ -76,8 +85,6 @@ class StoryAdapter (private val mContext: Context,
         // viewHolder for add story items
         var storyPlusBtn: ImageView? = null
         var addStoryText: TextView? = null
-
-
 
         init {
             // initialize story items
@@ -91,6 +98,8 @@ class StoryAdapter (private val mContext: Context,
         }
     }
 
+    // itemType 0: add story for current user.
+    // itemType >0: for viewing other stories
     override fun getItemViewType(position: Int): Int {
         if(position == 0) {
             return 0
@@ -99,6 +108,7 @@ class StoryAdapter (private val mContext: Context,
         }
     }
 
+    // get user info from firebase and set that info for story list
     private fun userInfo(viewHolder: ViewHolder, userId: String, position: Int) {
         val userRef = FirebaseDatabase.getInstance()
             .reference
@@ -129,6 +139,7 @@ class StoryAdapter (private val mContext: Context,
         })
     }
 
+    // get current user's story from firebase. will add all stories to a list via a counter
     private fun userStories(textView: TextView, imageView: ImageView, click: Boolean) {
         val storyRef = FirebaseDatabase.getInstance().reference
             .child("Story")
@@ -136,6 +147,7 @@ class StoryAdapter (private val mContext: Context,
 
         storyRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                // keep track of the number of current user's story
                 var counter = 0
 
                 val timeCurrent = System.currentTimeMillis()
@@ -148,6 +160,7 @@ class StoryAdapter (private val mContext: Context,
                 }
                 if(click) {
                     if(counter > 0) {
+                        // alert dialog gives option to view own story or add story
                         val alertDialog = AlertDialog.Builder(mContext).create()
 
                         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "View Story"){
@@ -175,10 +188,12 @@ class StoryAdapter (private val mContext: Context,
                         mContext.startActivity(intent)
                     }
                 } else {
+                    // change dialog if user has one or more stories to My Story
                     if(counter > 0) {
                         textView.text = "My Story"
                         imageView.visibility = View.GONE
                     } else {
+                        // If user has no story, change text to add story
                         textView.text = "Add Story"
                         imageView.visibility = View.VISIBLE
                     }
@@ -191,6 +206,7 @@ class StoryAdapter (private val mContext: Context,
         })
     }
 
+    // gets story ref from firebase and checks on data changed for views
     private fun viewedStory(viewHolder: ViewHolder, userId: String) {
         val storyRef = FirebaseDatabase.getInstance().reference
             .child("Story")
@@ -200,6 +216,7 @@ class StoryAdapter (private val mContext: Context,
             override fun onDataChange(snapshot: DataSnapshot) {
                 var counter = 0
                 for(snap in snapshot.children) {
+                    // if view is 1 day old do not display else increment counter for that specific story and make it viewable
                     if(!snap.child("views").child(FirebaseAuth.getInstance().currentUser!!.uid).exists()
                         && System.currentTimeMillis() < snap.getValue(Story::class.java)!!.getTimeEnd()) {
                         counter++

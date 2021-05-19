@@ -19,21 +19,25 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
+// Adapter for Comments. Attaches Comment data to the RecyclerView
 class CommentsAdapter(private val mContext: Context,
                       private val mComment: MutableList<Comment>?)
                       : RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
 
     private var firebaseUser: FirebaseUser? = null
 
+    // Inflates the layout and returns the viewHolder for our views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentsAdapter.ViewHolder {
         val view = LayoutInflater.from(mContext).inflate(R.layout.comment_item_layout, parent, false)
         return ViewHolder(view)
     }
 
+    // Gets the item count for our mComment List
     override fun getItemCount(): Int {
         return mComment!!.size
     }
 
+    // Reflects Comments held by the viewholder
     override fun onBindViewHolder(holder: CommentsAdapter.ViewHolder, position: Int) {
         firebaseUser = FirebaseAuth.getInstance().currentUser
 
@@ -42,11 +46,13 @@ class CommentsAdapter(private val mContext: Context,
         getUserInfo(holder.profileImage, holder.userName, comment.getPublisher())
     }
 
+    // Inner class to initialize our views
     inner class ViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView) {
         var profileImage: CircleImageView
         var userName: TextView
         var comment: TextView
 
+        // initializer
         init {
             profileImage = itemView.findViewById(R.id.profile_image_comment_page)
             userName = itemView.findViewById(R.id.user_name_comment_page)
@@ -55,6 +61,7 @@ class CommentsAdapter(private val mContext: Context,
 
     }
 
+    // Get the user info from firebase and attach their profile image and username
     private fun getUserInfo(profileImage: CircleImageView, userName: TextView, publisher: String) {
         val userRef = FirebaseDatabase.getInstance().reference
             .child("Users")

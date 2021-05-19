@@ -23,22 +23,25 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
+// User Adapter to set RecyclerView data for Notifications
 class UserAdapter (private var mContext: Context,
                    private var mUser: List<User>,
                    private var isFragment: Boolean = false) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     private var firebaseUser: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
+    // Inflate the layout and return viewholder with views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAdapter.ViewHolder {
         val view = LayoutInflater.from(mContext).inflate(R.layout.user_item_layout, parent, false)
         return UserAdapter.ViewHolder(view)
     }
 
+    // get the item count for user list
     override fun getItemCount(): Int {
         return mUser.size
     }
 
-    // Display retrieved data
+    // Display retrieved user data
     override fun onBindViewHolder(holder: UserAdapter.ViewHolder, position: Int) {
         val user = mUser[position]
         holder.userNameTextView.text = user.getUsername()
@@ -47,7 +50,9 @@ class UserAdapter (private var mContext: Context,
 
         checkFollowingStatus(user.getUid(), holder.followBtn)
 
+        // handle click event and send current user to that user profile
         holder.itemView.setOnClickListener(View.OnClickListener {
+            // check if fragment to send to profile fragment
             if(isFragment) {
                 val pref = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
                 pref.putString("profileId", user.getUid())
@@ -55,14 +60,16 @@ class UserAdapter (private var mContext: Context,
 
                 (mContext as FragmentActivity).supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, ProfileFragment()).commit()
+                // if not fragment send to main activity (home fragment)
             } else {
                 val intent = Intent(mContext, MainActivity::class.java)
                 intent.putExtra("publisherId", user.getUid())
                 mContext.startActivity(intent)
             }
         })
-        
+        // handle follow button click
         holder.followBtn.setOnClickListener {
+            // if user not following yet, change to following and set value in firebase to true
             if(holder.followBtn.text.toString() == "Follow") {
                 firebaseUser?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
@@ -85,6 +92,7 @@ class UserAdapter (private var mContext: Context,
                         }
                     }
                     addNotification(user.getUid())
+                // if user already following, unfollow and remove the value from firebase
                 } else {
                 firebaseUser?.uid.let { it1 ->
                     FirebaseDatabase.getInstance().reference
@@ -118,6 +126,7 @@ class UserAdapter (private var mContext: Context,
         var followBtn: Button = itemView.findViewById(R.id.follow_btn_search)
     }
 
+    // check if the user is following
     private fun checkFollowingStatus(uid: String, followBtn: Button) {
         val followingRef = firebaseUser?.uid.let { it1 ->
             FirebaseDatabase.getInstance().reference
@@ -125,6 +134,7 @@ class UserAdapter (private var mContext: Context,
                     .child("Following")
         }
 
+        // change text of based on if user is following or not
         followingRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(datasnapshot: DataSnapshot) {
                 if(datasnapshot.child(uid).exists()) {
@@ -140,6 +150,7 @@ class UserAdapter (private var mContext: Context,
         })
     }
 
+    // add notification to user for a following event
     private fun addNotification(userId: String) {
         val notificationRef = FirebaseDatabase.getInstance().reference
                 .child("Notifications")

@@ -22,21 +22,26 @@ import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
+// Notification Adapter to set RecyclerView data for Notifications
 class NotificationAdapter(private val mContext: Context,
                           private val mNotification: List<Notification>) : RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
 
+    // Inflates the layout on creation
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(mContext).inflate(R.layout.notifications_item_layout, parent, false)
         return ViewHolder(view)
     }
 
+    // Returns number of notifications from our mNotifications List
     override fun getItemCount(): Int {
         return mNotification.size
     }
 
+    // Reflects Notifications held by the viewholder to our recyclerview
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val notification = mNotification[position]
 
+        // set text of notifications based on type of notification: following, like, comment
         if(notification.getText().equals("started following you")) {
             holder.text.text = "started following you"
         } else if(notification.getText().equals("liked your post")) {
@@ -48,9 +53,9 @@ class NotificationAdapter(private val mContext: Context,
             holder.text.text = notification.getText()
         }
 
-
         getUserInfo(holder.profileImage, holder.userName, notification.getUserId())
 
+        // Get the image from memory if notification type is Memory type
         if(notification.getIsMemory()) {
             holder.memoryImage.visibility = View.VISIBLE
             getMemoryImg(holder.memoryImage, notification.getMemoryId())
@@ -58,6 +63,7 @@ class NotificationAdapter(private val mContext: Context,
             holder.memoryImage.visibility = View.GONE
         }
 
+        // handle click on the notification. will send user to memory details or profile
         holder.itemView.setOnClickListener {
             if(notification.getIsMemory()) {
                 val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
@@ -79,6 +85,7 @@ class NotificationAdapter(private val mContext: Context,
         }
     }
 
+    // initialize our views for the ViewHolder
     inner class ViewHolder(@NonNull itemView: View) : RecyclerView.ViewHolder(itemView) {
         var memoryImage: ImageView
         var profileImage: CircleImageView
@@ -93,6 +100,7 @@ class NotificationAdapter(private val mContext: Context,
         }
     }
 
+    // get user info from firebase and set info for the notification
     private fun getUserInfo(imageView: ImageView, userName: TextView, publisherId: String) {
         val userRef = FirebaseDatabase.getInstance()
                 .reference
@@ -117,6 +125,7 @@ class NotificationAdapter(private val mContext: Context,
         })
     }
 
+    // Get memory image from firebase set memory image for notification
     private fun getMemoryImg(imageView: ImageView, memId: String) {
         val memoryRef = FirebaseDatabase.getInstance()
                 .reference

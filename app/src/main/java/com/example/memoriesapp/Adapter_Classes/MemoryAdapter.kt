@@ -51,6 +51,7 @@ class MemoryAdapter
 
         Picasso.get().load(memory.getMemoryImage()).into(holder.memoryImage)
 
+        // set visibility for memory description, not implemented yet
         if (memory.getDescription().equals("")) {
             holder.description.visibility = View.GONE
         } else {
@@ -58,12 +59,14 @@ class MemoryAdapter
             holder.description.text = memory.getDescription()
         }
 
+        // Get all memory info for publisher, likes, number of times liked, number of comments and if the memory is saved by user
         publisherInfo(holder.profileImage, holder.userName, holder.publisher, memory.getPublisher())
         isLiked(memory.getMemoryId(), holder.likeBtn)
         likeNum(holder.likes, memory.getMemoryId())
         commentNum(holder.comments, memory.getMemoryId())
         checkIfMemorySaved(memory.getMemoryId(), holder.saveBtn)
 
+        // set tag of like
         holder.likeBtn.setOnClickListener {
             if (holder.likeBtn.tag == "Like") {
                 FirebaseDatabase.getInstance().reference
@@ -85,6 +88,7 @@ class MemoryAdapter
             }
         }
 
+        // set the save status of a memory
         holder.saveBtn.setOnClickListener {
             if (holder.saveBtn.tag == "Save") {
                 FirebaseDatabase.getInstance().reference
@@ -101,6 +105,7 @@ class MemoryAdapter
             }
         }
 
+        // handles click event on the comment button
         holder.commentBtn.setOnClickListener {
             val intent = Intent(mContext, CommentsActivity::class.java)
             intent.putExtra("memoryId", memory.getMemoryId())
@@ -115,6 +120,7 @@ class MemoryAdapter
             mContext.startActivity(intent)
         }
 
+        // handles click event for likes
         holder.likes.setOnClickListener {
             val intent = Intent(mContext, DisplayUsersActivity::class.java)
             intent.putExtra("id", memory.getMemoryId())
@@ -122,6 +128,7 @@ class MemoryAdapter
             mContext.startActivity(intent)
         }
 
+        // handles memoryImage click to transition to memorydetailsfragment
         holder.memoryImage.setOnClickListener {
             val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
             editor.putString("memoryId", memory.getMemoryId())
@@ -131,6 +138,8 @@ class MemoryAdapter
                     .beginTransaction()
                     .replace(R.id.fragment_container, MemoryDetailsFragment()).commit()
         }
+
+        // handles click event for publisher
         holder.publisher.setOnClickListener {
             val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
             editor.putString("profileId", memory.getPublisher())
@@ -141,6 +150,7 @@ class MemoryAdapter
                     .replace(R.id.fragment_container, ProfileFragment()).commit()
         }
 
+        // handles click event for profile image
         holder.profileImage.setOnClickListener {
             val editor = mContext.getSharedPreferences("PREFS", Context.MODE_PRIVATE).edit()
             editor.putString("profileId", memory.getPublisher())
@@ -150,18 +160,20 @@ class MemoryAdapter
                     .beginTransaction()
                     .replace(R.id.fragment_container, ProfileFragment()).commit()
         }
+
+        // Option menu for memories appears only for currentUser's memories
         if (firebaseUser?.uid == memory.getPublisher()) {
             holder.optionsBtn.visibility = View.VISIBLE
             holder.optionsBtn.setOnClickListener {
                 val currentUserReference = FirebaseDatabase.getInstance().reference
                         .child("Memories").child(FirebaseAuth.getInstance().currentUser!!.uid)
-
+                // handles click event for option button to delete or edit their memories
                 holder.optionsBtn.setOnClickListener {
                     val popupMenu: PopupMenu = PopupMenu(mContext, holder.optionsBtn)
                     popupMenu.menuInflater.inflate(R.menu.memory_options, popupMenu.menu)
                     popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
                         when (item.itemId) {
-                            R.id.memory_edit -> mContext.startActivity(Intent(mContext, EditMemoryActivity::class.java))
+                            R.id.memory_edit -> editMemory(memory)
 
                             R.id.memory_delete -> deleteMemory(memory)
                         }
@@ -171,6 +183,17 @@ class MemoryAdapter
                 }
             }
         }
+    }
+
+    // if options button memory clicked, set intent for EditMemoryActivity
+    private fun editMemory(memory: Memories) {
+        val intent = Intent(mContext, EditMemoryActivity::class.java)
+
+        intent.putExtra("editdescription", memory.getDescription())
+        intent.putExtra("memoryid", memory.getMemoryId())
+        intent.putExtra("editimage", memory.getMemoryImage())
+
+        mContext.startActivity(intent)
     }
 
     // Delete Memory and Memory Image from Firebase
