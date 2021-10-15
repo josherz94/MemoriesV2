@@ -21,15 +21,15 @@ Firebase Storage is used for storing our Images.
 ## Screenshots
 
 ![SS1](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss1.PNG?raw=true)
-![SS2](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss2.png?raw=true)
-![SS3](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss3.png?raw=true)
-![SS4](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss4.png?raw=true)
-![SS5](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss5.png?raw=true)
-![SS6](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss6.png?raw=true)
-![SS7](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss7.png?raw=true)
-![SS8](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss8.png?raw=true)
-![SS9](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss9.png?raw=true)
-![SS10](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss10.png?raw=true)
+![SS2](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss2.PNG?raw=true)
+![SS3](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss3.PNG?raw=true)
+![SS4](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss4.PNG?raw=true)
+![SS5](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss5.PNG?raw=true)
+![SS6](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss6.PNG?raw=true)
+![SS7](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss7.PNG?raw=true)
+![SS8](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss8.PNG?raw=true)
+![SS9](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss9.PNG?raw=true)
+![SS10](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss10.PNG?raw=true)
 
 ## Technologies
 * Android Studio
