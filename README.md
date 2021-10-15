@@ -4,7 +4,6 @@ Memories is a social media application developed with Android studio. User's cre
 
 ## Table of contents
 * [General info](#general-info)
-* [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Features](#features)
@@ -17,19 +16,6 @@ The majority of the application is written in Kotlin utilizing Android Studio.
 Firebase Auth is used for user authentication, signin, and signup.
 Firebase Realtime Database is used for storing our user data and keeping user synced.
 Firebase Storage is used for storing our Images.
-
-## Screenshots
-
-![SS1](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss1.PNG?raw=true)
-![SS2](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss2.PNG?raw=true)
-![SS3](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss3.PNG?raw=true)
-![SS4](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss4.PNG?raw=true)
-![SS5](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss5.PNG?raw=true)
-![SS6](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss6.PNG?raw=true)
-![SS7](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss7.PNG?raw=true)
-![SS8](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss8.PNG?raw=true)
-![SS9](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss9.PNG?raw=true)
-![SS10](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss10.PNG?raw=true)
 
 ## Technologies
 * Android Studio
@@ -49,19 +35,27 @@ List of features ready and TODOs for future development
 	- Click Need New Account? Sign Up
 	- Fill out information.
 	- Save your account information.
+
+![SS2](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss2.PNG?raw=true)
   
 * Sign in:
 	- If previously signed in most likely you will be automatically signed in.
 	- If not enter your email address and password where prompted on the Login Screen.
 
+![SS1](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss1.PNG?raw=true)
+
 * Home page:
 	- Displays recent memories posted by you and those you follow which you can interact with.
 	- Ability to create or view stories on the top of the Homepage.
+
+![SS3](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss3.PNG?raw=true)
   
 * Profile page: 
 	- Displays your user information.
 	- Displays information about your memories, followers, and following.
 	- Displays Memories in a grid or saves in a grid.
+
+![SS9](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss9.PNG?raw=true)
   
 * Edit Profile page:
 	- Ability to logout.
@@ -71,13 +65,19 @@ List of features ready and TODOs for future development
 
 * Search page:
 	- Search- Ability to search for other users. 
+
+![SS4](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss4.PNG?raw=true)
   
 * Notification page:
 	- See when other users comment, like, or follow you.
+
+![SS6](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss6.PNG?raw=true)
   
 * Stories:
   - upload stories for other followers to see for a short length of time.
   - Stories are automatically deleted within one day.
+
+![SS10](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss10.PNG?raw=true)
   
 To-do list:
 * Chat/group chat feature
