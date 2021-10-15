@@ -20,7 +20,7 @@ Firebase Storage is used for storing our Images.
 
 ## Screenshots
 
-![SS1](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss1.png?raw=true)
+![SS1](https://github.com/josherz94/MemoriesV2/blob/main/Screenshots/ss1.PNG?raw=true)
 ![SS2](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss2.png?raw=true)
 ![SS3](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss3.png?raw=true)
 ![SS4](https://github.com/josherz94/MemoriesV2/blob/master/Screenshots/ss4.png?raw=true)
