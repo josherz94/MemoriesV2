@@ -1,4 +1,4 @@
-# # Spicerunner
+# # Memories
 Memories is a social media application developed with Android studio. User's create and share their Memories with other users.
 
 
